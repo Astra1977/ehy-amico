@@ -1,0 +1,48 @@
+# Inventario Fase 1
+
+`README.md` aggiornato; gli altri file sono nuovi.
+
+- `.gitignore`
+- `.nojekyll`
+- `README.md`
+- `assets/atlante.svg`
+- `assets/carte.svg`
+- `assets/cristalli.svg`
+- `assets/fossili.svg`
+- `assets/giungla.svg`
+- `assets/grotta.svg`
+- `assets/hero.svg`
+- `assets/labirinto.svg`
+- `assets/laboratorio.svg`
+- `assets/piscina.svg`
+- `assets/portale.svg`
+- `assets/sentiero.svg`
+- `assets/strada.svg`
+- `css/app.css`
+- `docs/FASE-1.md`
+- `docs/FILES.md`
+- `docs/TEST.md`
+- `docs/screenshots/home-1280.png`
+- `docs/screenshots/home-360.png`
+- `docs/screenshots/home-768.png`
+- `icons/compass.svg`
+- `icons/icon-192.png`
+- `icons/icon-512.png`
+- `icons/maskable-512.png`
+- `index.html`
+- `js/app.js`
+- `js/catalog.js`
+- `js/progress.js`
+- `js/pwa.js`
+- `js/session.js`
+- `manifest.webmanifest`
+- `package-lock.json`
+- `package.json`
+- `playwright.config.js`
+- `scripts/build.mjs`
+- `scripts/create-art.py`
+- `scripts/sw.template.js`
+- `sw.js`
+- `tests/browser/app.spec.js`
+- `tests/progress.test.mjs`
+- `tests/pwa.test.mjs`
