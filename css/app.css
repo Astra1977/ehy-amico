@@ -970,5 +970,216 @@ footer {
 .map-stop {
   position: relative;
 }
-.fragment { display: grid; place-items: center; width: 48px; left: calc(50% - 24px); }
-.fragment span { display: inline-block; }
+.fragment {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  left: calc(50% - 24px);
+}
+.fragment span {
+  display: inline-block;
+}
+.game-shell {
+  background: #fff6dc;
+  border: 1px solid #b8955c;
+  border-radius: 22px;
+  padding: 24px;
+}
+.game-toolbar,
+.game-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 12px 0;
+}
+.game-toolbar label {
+  margin: 0;
+}
+.game-toolbar a,
+.game-toolbar button {
+  min-height: 48px;
+}
+.game-goal {
+  font-weight: 800;
+  background: #e9dfbc;
+  padding: 14px;
+  border-radius: 12px;
+}
+.game-hud {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  min-height: 48px;
+}
+.game-notice {
+  font-weight: 800;
+  color: #875019;
+}
+.game-play {
+  position: relative;
+}
+.game-controls button {
+  min-height: 56px;
+  min-width: 70px;
+  touch-action: none;
+}
+.roach-field {
+  position: relative;
+  width: 100%;
+  height: clamp(300px, 48vh, 520px);
+  overflow: hidden;
+  background: radial-gradient(#b4d38b, #3e7958);
+  border: 4px solid #baa164;
+  border-radius: 18px;
+}
+.roach-target {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 76px;
+  height: 76px;
+  padding: 5px;
+  background: #fff7da;
+  border: 2px solid #5f6c3b;
+  border-radius: 50%;
+  touch-action: manipulation;
+}
+.roach-target:hover {
+  background: #f9e1a2;
+}
+.roach-target img {
+  width: 100%;
+  height: 100%;
+}
+.roach-target.boss {
+  width: 90px;
+  height: 100px;
+  background: #f7d97f;
+}
+.roach-target span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 12px;
+  color: #2b412d;
+  background: #fff4d9;
+  border-radius: 8px;
+}
+.runner-canvas {
+  width: 100%;
+  height: auto;
+  border: 3px solid #a48c55;
+  border-radius: 18px;
+  touch-action: manipulation;
+}
+.tetris-layout {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  justify-content: center;
+}
+.tetris-board {
+  width: auto;
+  height: min(58vh, 600px);
+  max-width: 100%;
+  background: #123b36;
+  border: 4px solid #bda264;
+  border-radius: 10px;
+}
+.tetris-sidebar {
+  min-width: 110px;
+  max-width: 180px;
+}
+.tetris-sidebar canvas {
+  width: 100px;
+  height: 100px;
+}
+.tetris-sidebar progress {
+  width: 100%;
+}
+.tetris-controls {
+  justify-content: center;
+}
+.tetris-controls button {
+  flex: 1;
+  max-width: 170px;
+}
+.game-play[inert] {
+  opacity: 0.5;
+}
+.game-notice:empty {
+  display: none;
+}
+@media (max-width: 650px) {
+  .game-shell {
+    padding: 14px;
+  }
+  .game-toolbar {
+    gap: 8px;
+  }
+  .game-toolbar button,
+  .game-toolbar a {
+    font-size: 13px;
+    padding: 12px;
+  }
+  .tetris-layout {
+    gap: 10px;
+  }
+  .tetris-board {
+    height: auto;
+    width: calc(100% - 95px);
+    max-width: 270px;
+  }
+  .tetris-sidebar {
+    min-width: 75px;
+    width: 85px;
+    font-size: 12px;
+  }
+  .tetris-sidebar canvas {
+    width: 75px;
+    height: 75px;
+  }
+  .tetris-controls button {
+    min-width: 76px;
+    font-size: 13px;
+  }
+  .roach-target {
+    width: 66px;
+    height: 66px;
+  }
+  .roach-target.boss {
+    width: 78px;
+    height: 90px;
+  }
+}
+@media (orientation: landscape) and (max-height: 600px) {
+  .tetris-board {
+    height: 380px;
+  }
+  .roach-field {
+    height: 310px;
+  }
+}
+.golden-ladybug {
+  filter: hue-rotate(42deg) saturate(1.5);
+}
+.skip:not(:focus) {
+  clip-path: inset(100%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+}
+.tetris-board {
+  height: min(50vh, 500px);
+}
+@media (max-width: 650px) {
+  .tetris-board {
+    height: auto;
+  }
+}
+@media (orientation: landscape) and (max-height: 600px) {
+  .tetris-board {
+    height: 350px;
+  }
+}

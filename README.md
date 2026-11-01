@@ -2,7 +2,7 @@
 
 **Il Mistero del Tempo Perduto** — PWA statica di avventure per piccoli esploratori.
 
-La Fase 1 include base, mappa delle dodici avventure, radio, struttura del diario, collezione e progressi locali. I giochi sono in preparazione per le fasi successive: le schede non sono minigiochi dimostrativi.
+La Fase 1 include base, mappa delle dodici avventure, radio, struttura del diario, collezione e progressi locali. La Fase 2A aggiunge Acchiappa la Cucaracha, Salta la Cacca e Tetris giocabili, con 15 tesori e tre frammenti. Le altre nove avventure restano in preparazione.
 
 Avvio locale: `npm run serve`, quindi aprire `http://localhost:8000/ehy-amico/` (la cartella deve chiamarsi `ehy-amico`). Nessun account, server applicativo, pubblicità, telemetria, font o asset remoti.
 
@@ -14,4 +14,6 @@ Analisi, architettura, stato delle licenze e limiti: [Fase 1](docs/FASE-1.md). R
 
 Non pubblicare la versione finale e non effettuare merge senza approvazione.
 
-Restyling grafico in revisione: [stato, asset e verifiche](docs/RESTYLING.md).
+Restyling grafico: [stato, asset e verifiche](docs/RESTYLING.md).
+
+Giochi disponibili, provenienza, regole e risultati: [Fase 2A](docs/FASE-2A.md).

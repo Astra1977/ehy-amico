@@ -19,9 +19,14 @@ test("navigazione, dodici schede, radio, tastiera, preferenze e offline", async 
     .evaluateAll((nodes) => nodes.map((n) => n.hash));
   for (const id of ids) {
     await page.goto("./" + id);
-    await expect(page.locator("main")).toContainText(
-      "Lo Zio Inventore sta preparando",
-    );
+    if (["#game/roach", "#game/runner", "#game/tetris"].includes(id))
+      await expect(
+        page.getByRole("button", { name: "Inizia partita" }),
+      ).toBeVisible();
+    else
+      await expect(page.locator("main")).toContainText(
+        "Lo Zio Inventore sta preparando",
+      );
     await page.getByRole("link", { name: "Torna alla mappa" }).click();
     await expect(page.locator(".card")).toHaveCount(12);
   }
@@ -214,42 +219,104 @@ for (const width of [360, 768, 1024])
     }
   });
 
-test('nuove illustrazioni e percorso disponibili offline', async ({page,context}) => {
- await page.goto('./');
- await expect(page.locator('#offline')).toContainText('Zaino pronto');
- await expect.poll(()=>page.evaluate(()=>!!navigator.serviceWorker.controller)).toBe(true);
- expect(await page.evaluate(async()=>!!await caches.match(new URL('./assets/adventure-atlas.webp',location.href).href))).toBe(true);
- await context.setOffline(true);
- await page.reload();
- await page.getByRole('link',{name:'Inizia l’avventura'}).click();
- await expect(page.locator('.map-stop')).toHaveCount(12);
- await expect(page.locator('.map-stop').first()).toBeVisible();
- await page.getByRole('link',{name:'Tesori',exact:true}).click();
- await expect(page.locator('.fragment')).toHaveCount(12);
+test("nuove illustrazioni e percorso disponibili offline", async ({
+  page,
+  context,
+}) => {
+  await page.goto("./");
+  await expect(page.locator("#offline")).toContainText("Zaino pronto");
+  await expect
+    .poll(() => page.evaluate(() => !!navigator.serviceWorker.controller))
+    .toBe(true);
+  expect(
+    await page.evaluate(
+      async () =>
+        !!(await caches.match(
+          new URL("./assets/adventure-atlas.webp", location.href).href,
+        )),
+    ),
+  ).toBe(true);
+  await context.setOffline(true);
+  await page.reload();
+  await page.getByRole("link", { name: "Inizia l’avventura" }).click();
+  await expect(page.locator(".map-stop")).toHaveCount(12);
+  await expect(page.locator(".map-stop").first()).toBeVisible();
+  await page.getByRole("link", { name: "Tesori", exact: true }).click();
+  await expect(page.locator(".fragment")).toHaveCount(12);
 });
 
 for (const width of [360, 768, 1280]) {
-  test('illustrazione approvata completa e offline ' + width, async ({page, context}) => {
-    await page.setViewportSize({width, height:1024});
-    await page.goto('./');
-    const hero = page.locator('.hero-portrait');
-    await expect(hero).toHaveAttribute('src','./assets/hero-approved.jpg');
-    await expect.poll(()=>hero.evaluate(img=>img.complete && img.naturalWidth===1097 && img.naturalHeight===1200)).toBe(true);
-    expect(await hero.evaluate(img=>getComputedStyle(img).objectFit)).toBe('contain');
-    const bounds=await hero.boundingBox();
-    const frame=await page.locator('.hero-visual').boundingBox();
-    expect(bounds.x).toBeGreaterThanOrEqual(frame.x);
-    expect(bounds.x+bounds.width).toBeLessThanOrEqual(frame.x+frame.width+1);
-    expect(bounds.y).toBeGreaterThanOrEqual(frame.y);
-    expect(bounds.y+bounds.height).toBeLessThanOrEqual(frame.y+frame.height+1);
-    await page.screenshot({path:'work/hero-approved-'+width+'.png',fullPage:true,animations:'disabled'});
-    await expect(page.locator('#offline')).toContainText('Zaino pronto');
-    await expect.poll(()=>page.evaluate(()=>!!navigator.serviceWorker.controller)).toBe(true);
-    const before=await hero.evaluate(async img=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await (await fetch(img.src)).arrayBuffer()))).map(n=>n.toString(16).padStart(2,'0')).join(''));
-    await context.setOffline(true);
-    await page.reload();
-    await expect.poll(()=>hero.evaluate(img=>img.complete && img.naturalWidth===1097)).toBe(true);
-    const after=await hero.evaluate(async img=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await (await fetch(img.src)).arrayBuffer()))).map(n=>n.toString(16).padStart(2,'0')).join(''));
-    expect(after).toBe(before);
-  });
+  test(
+    "illustrazione approvata completa e offline " + width,
+    async ({ page, context }) => {
+      await page.setViewportSize({ width, height: 1024 });
+      await page.goto("./");
+      const hero = page.locator(".hero-portrait");
+      await expect(hero).toHaveAttribute("src", "./assets/hero-approved.jpg");
+      await expect
+        .poll(() =>
+          hero.evaluate(
+            (img) =>
+              img.complete &&
+              img.naturalWidth === 1097 &&
+              img.naturalHeight === 1200,
+          ),
+        )
+        .toBe(true);
+      expect(
+        await hero.evaluate((img) => getComputedStyle(img).objectFit),
+      ).toBe("contain");
+      const bounds = await hero.boundingBox();
+      const frame = await page.locator(".hero-visual").boundingBox();
+      expect(bounds.x).toBeGreaterThanOrEqual(frame.x);
+      expect(bounds.x + bounds.width).toBeLessThanOrEqual(
+        frame.x + frame.width + 1,
+      );
+      expect(bounds.y).toBeGreaterThanOrEqual(frame.y);
+      expect(bounds.y + bounds.height).toBeLessThanOrEqual(
+        frame.y + frame.height + 1,
+      );
+      await page.screenshot({
+        path: "work/hero-approved-" + width + ".png",
+        fullPage: true,
+        animations: "disabled",
+      });
+      await expect(page.locator("#offline")).toContainText("Zaino pronto");
+      await expect
+        .poll(() => page.evaluate(() => !!navigator.serviceWorker.controller))
+        .toBe(true);
+      const before = await hero.evaluate(async (img) =>
+        Array.from(
+          new Uint8Array(
+            await crypto.subtle.digest(
+              "SHA-256",
+              await (await fetch(img.src)).arrayBuffer(),
+            ),
+          ),
+        )
+          .map((n) => n.toString(16).padStart(2, "0"))
+          .join(""),
+      );
+      await context.setOffline(true);
+      await page.reload();
+      await expect
+        .poll(() =>
+          hero.evaluate((img) => img.complete && img.naturalWidth === 1097),
+        )
+        .toBe(true);
+      const after = await hero.evaluate(async (img) =>
+        Array.from(
+          new Uint8Array(
+            await crypto.subtle.digest(
+              "SHA-256",
+              await (await fetch(img.src)).arrayBuffer(),
+            ),
+          ),
+        )
+          .map((n) => n.toString(16).padStart(2, "0"))
+          .join(""),
+      );
+      expect(after).toBe(before);
+    },
+  );
 }
