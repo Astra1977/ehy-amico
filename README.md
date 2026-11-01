@@ -13,3 +13,5 @@ Avvio locale: `npm run serve`, quindi aprire `http://localhost:8000/ehy-amico/` 
 Analisi, architettura, stato delle licenze e limiti: [Fase 1](docs/FASE-1.md). Risultati e controlli su dispositivi: [Test](docs/TEST.md). File: [Inventario](docs/FILES.md).
 
 Non pubblicare la versione finale e non effettuare merge senza approvazione.
+
+Restyling grafico in revisione: [stato, asset e verifiche](docs/RESTYLING.md).
