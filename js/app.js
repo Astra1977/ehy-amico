@@ -1,6 +1,8 @@
 import { GAMES, gameById } from "./catalog.js";
 import { createStore, totals } from "./progress.js";
 import "./pwa.js";
+import { PLAYABLE, OBJECTIVES, GAME_HINTS } from "./arcade-games.js";
+import { createGameSession } from "./game-session.js";
 import { HERO_ART } from "./artwork.js";
 let storage;
 try {
@@ -19,11 +21,21 @@ const store = createStore(storage),
   main = document.querySelector("main"),
   radio = document.querySelector("#radio");
 const hints = [
-  "Esplora la mappa: ogni tappa custodirà un frammento della Bussola del Tempo. Le avventure sono ancora in preparazione.",
+  "Esplora la mappa: ogni tappa custodirà un frammento della Bussola del Tempo. Le prime tre avventure ti aspettano già!",
   "Cinque obiettivi per ogni avventura, cinque tesori da conquistare. Il frammento si ricompone quando li completi tutti!",
   "Il Diario raccoglierà ciò che scopri giocando. Non serve correre: osservare è il primo superpotere di un esploratore.",
 ];
 let hint = 0;
+let activeSession = null;
+let currentHints = hints;
+function openRadio(id) {
+  currentHints = GAME_HINTS[id] || hints;
+  hint = 0;
+  document.querySelector("#hint").textContent = currentHints[0];
+  document.querySelector("#more").disabled = false;
+  activeSession?.setPaused(true);
+  radio.showModal();
+}
 const el = (tag, text, className) => {
   const node = document.createElement(tag);
   if (text !== undefined) node.textContent = text;
@@ -60,7 +72,13 @@ function cards(map = false) {
       el("small", "AVVENTURA " + String(g.number).padStart(2, "0")),
       el("h3", g.name),
       el("p", g.description),
-      el("span", "In preparazione · Fase " + g.phase, "tag"),
+      el(
+        "span",
+        g.status === "playable"
+          ? "Gioca · 5 tesori"
+          : "In preparazione · Fase " + g.phase,
+        "tag",
+      ),
     );
     card.append(img, body);
     grid.append(card);
@@ -121,11 +139,14 @@ function showHome() {
   words.append(
     el("p", "DODICI TAPPE. UN SOLO GRANDE MISTERO.", "eyebrow"),
     el("h2", "Scegli la prossima scoperta"),
-    el("p", "La mappa è pronta. I giochi arriveranno nelle prossime fasi."),
+    el(
+      "p",
+      "Tre avventure sono pronte: cucaracha, salti e blocchi. Scegli la tua!",
+    ),
   );
   head.append(words);
   const b = el("button", "Chiedi allo Zio");
-  b.onclick = () => radio.showModal();
+  b.onclick = () => openRadio(location.hash.slice(6));
   head.append(b);
   main.append(head, cards());
 }
@@ -140,6 +161,10 @@ function game(id) {
     return;
   }
   store.visit(id);
+  if (PLAYABLE[id]) {
+    playGame(id);
+    return;
+  }
   const panel = el("section", undefined, "panel");
   const img = gameArt(g);
   panel.append(
@@ -158,10 +183,135 @@ function game(id) {
   const actions = el("div", undefined, "actions");
   actions.append(link("Torna alla mappa", "map"));
   const b = el("button", "Chiedi allo Zio", "secondary");
-  b.onclick = () => radio.showModal();
+  b.onclick = () => openRadio(location.hash.slice(6));
   actions.append(b);
   panel.append(actions);
   main.append(panel);
+}
+function playGame(id) {
+  const g = gameById(id);
+  heading(
+    g.name,
+    "Cinque obiettivi, cinque tesori. Il frammento ti aspetta alla fine!",
+  );
+  const shell = el("section", undefined, "game-shell");
+  main.append(shell);
+  const stageRow = el("div", undefined, "game-toolbar"),
+    label = el("label", "Obiettivo "),
+    select = el("select");
+  label.append(select);
+  stageRow.append(label);
+  const max = Math.min(5, store.data.games[id].completed + 1);
+  for (let n = 1; n <= max; n++) {
+    const option = el("option", String(n) + "/5");
+    option.value = n;
+    select.append(option);
+  }
+  select.value = max;
+  const badges = el("div");
+  badges.append(gems(store.data.games[id].completed));
+  stageRow.append(badges);
+  shell.append(stageRow);
+  const goal = el("p", undefined, "game-goal");
+  shell.append(goal);
+  const hud = el("p", undefined, "game-hud");
+  shell.append(hud);
+  const notice = el("p", undefined, "game-notice");
+  notice.setAttribute("role", "status");
+  shell.append(notice);
+  const actions = el("div", undefined, "game-toolbar");
+  const start = el("button", "Inizia partita"),
+    pause = el("button", "Pausa", "secondary"),
+    help = el("button", "Chiedi allo Zio", "secondary");
+  pause.hidden = true;
+  actions.append(
+    start,
+    pause,
+    help,
+    link("Torna alla mappa", "map", "button secondary"),
+  );
+  shell.append(actions);
+  const pauseNotice = el(
+    "p",
+    "Partita in pausa. Premi Riprendi quando sei pronto.",
+    "notice",
+  );
+  pauseNotice.hidden = true;
+  shell.append(pauseNotice);
+  const play = el("div", undefined, "game-play");
+  shell.append(play);
+  const paintGoal = () => {
+    goal.textContent = OBJECTIVES[id][Number(select.value) - 1];
+    hud.textContent = "Record " + store.data.games[id].best;
+  };
+  paintGoal();
+  select.onchange = () => {
+    activeSession?.dispose();
+    activeSession = null;
+    play.replaceChildren();
+    notice.textContent = "";
+    pauseNotice.hidden = true;
+    pause.hidden = true;
+    play.inert = false;
+    start.textContent = "Inizia partita";
+    paintGoal();
+  };
+  start.onclick = () => {
+    activeSession?.dispose();
+    play.replaceChildren();
+    play.dataset.state = "playing";
+    play.inert = false;
+    notice.textContent = "";
+    pauseNotice.hidden = true;
+    pause.hidden = false;
+    pause.textContent = "Pausa";
+    start.textContent = "Riprova";
+    const ctx = createGameSession({
+      play,
+      store,
+      id,
+      stage: Number(select.value),
+      info: (text) => {
+        hud.textContent = text;
+        if (
+          play.dataset.state === "over" ||
+          (play.dataset.state === "won" && !notice.textContent)
+        )
+          notice.textContent = text;
+      },
+      onReward: (n) => {
+        badges.replaceChildren(gems(store.data.games[id].completed));
+        notice.textContent =
+          n === 5
+            ? "Cinque tesori! Hai ritrovato un frammento della Bussola del Tempo!"
+            : "Tesoro conquistato! Obiettivo " + n + " completato.";
+        const next = n + 1;
+        if (
+          next <= 5 &&
+          ![...select.options].some((o) => Number(o.value) === next)
+        ) {
+          const o = el("option", next + "/5");
+          o.value = next;
+          select.append(o);
+        }
+        warning();
+      },
+    });
+    activeSession = ctx;
+    ctx.listen(play, "game:pausechange", () => {
+      pause.textContent = ctx.paused ? "Riprendi" : "Pausa";
+      pauseNotice.hidden = !ctx.paused;
+      play.inert = ctx.paused;
+    });
+    PLAYABLE[id](ctx);
+    main.focus({preventScroll:true});
+    shell.scrollIntoView({ block: "start", behavior: "instant" });
+  };
+  pause.onclick = () => {
+    if (activeSession) activeSession.setPaused(!activeSession.paused);
+    main.focus({preventScroll:true});
+  };
+  help.onclick = () => openRadio(id);
 }
 function diary() {
   heading(
@@ -177,6 +327,26 @@ function diary() {
     ),
     link("Sfoglia la mappa", "map"),
   );
+  const entries = Object.entries(PLAYABLE).filter(
+    ([id]) => store.data.games[id].completed > 0,
+  );
+  if (entries.length) {
+    p.replaceChildren(el("h2", "Le conquiste dell’Esploratore"));
+    for (const [id] of entries) {
+      const g = gameById(id);
+      p.append(
+        el("h3", g.name),
+        el(
+          "p",
+          store.data.games[id].completed +
+            " obiettivi completati su 5 · Record " +
+            store.data.games[id].best,
+        ),
+        el("p", GAME_HINTS[id][1]),
+      );
+    }
+    p.append(link("Continua l’avventura", "map"));
+  }
   main.append(p);
 }
 function rewards() {
@@ -245,7 +415,11 @@ function adventureMap() {
       el("small", "TAPPA " + String(g.number).padStart(2, "0")),
       el("h2", g.name),
       el("p", g.region),
-      el("span", "In preparazione", "tag"),
+      el(
+        "span",
+        g.status === "playable" ? "Gioca adesso" : "In preparazione",
+        "tag",
+      ),
     );
     stop.append(label);
     path.append(stop);
@@ -337,6 +511,8 @@ function warning() {
 }
 let initial = true;
 function render() {
+  activeSession?.dispose();
+  activeSession = null;
   main.replaceChildren();
   const route = location.hash.slice(1) || "home";
   document.querySelectorAll("nav a").forEach((a) => {
@@ -363,9 +539,9 @@ function render() {
 }
 document.querySelector("#hint").textContent = hints[0];
 document.querySelector("#more").onclick = () => {
-  hint = Math.min(hint + 1, hints.length - 1);
-  document.querySelector("#hint").textContent = hints[hint];
-  document.querySelector("#more").disabled = hint === hints.length - 1;
+  hint = Math.min(hint + 1, currentHints.length - 1);
+  document.querySelector("#hint").textContent = currentHints[hint];
+  document.querySelector("#more").disabled = hint === currentHints.length - 1;
 };
 window.addEventListener("hashchange", render);
 render();
