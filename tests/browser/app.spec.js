@@ -27,6 +27,8 @@ test("navigazione, dodici schede, radio, tastiera, preferenze e offline", async 
         "#game/maze",
         "#game/memory",
         "#game/car",
+        "#game/jurassic",
+        "#game/time",
       ].includes(id)
     )
       await expect(

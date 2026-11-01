@@ -1,4 +1,13 @@
-export function createGameSession({ play, store, id, stage, info, onReward }) {
+export function createGameSession({
+  play,
+  store,
+  id,
+  stage,
+  info,
+  onReward,
+  onSave = () => {},
+  restart = false,
+}) {
   const controller = new AbortController();
   const cleaners = [];
   let disposed = false,
@@ -8,10 +17,20 @@ export function createGameSession({ play, store, id, stage, info, onReward }) {
   const ctx = {
     play,
     stage,
+    restart,
     difficulty: store.data.settings.difficulty,
     soundEnabled: store.data.settings.sound,
     onCleanup(fn) {
       cleaners.push(fn);
+    },
+    readAdventure() {
+      const data = store.data.adventures?.[id]?.[stage];
+      return data ? JSON.parse(JSON.stringify(data)) : null;
+    },
+    saveAdventure(value) {
+      const result = store.saveAdventure(id, stage, value);
+      onSave();
+      return result;
     },
     tip: null,
     get paused() {
