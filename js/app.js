@@ -21,7 +21,7 @@ const store = createStore(storage),
   main = document.querySelector("main"),
   radio = document.querySelector("#radio");
 const hints = [
-  "Esplora la mappa: ogni tappa custodirà un frammento della Bussola del Tempo. Le prime tre avventure ti aspettano già!",
+  "Esplora la mappa: ogni tappa custodirà un frammento della Bussola del Tempo. Le prime sei avventure ti aspettano già!",
   "Cinque obiettivi per ogni avventura, cinque tesori da conquistare. Il frammento si ricompone quando li completi tutti!",
   "Il Diario raccoglierà ciò che scopri giocando. Non serve correre: osservare è il primo superpotere di un esploratore.",
 ];
@@ -141,7 +141,7 @@ function showHome() {
     el("h2", "Scegli la prossima scoperta"),
     el(
       "p",
-      "Tre avventure sono pronte: cucaracha, salti e blocchi. Scegli la tua!",
+      "Sei avventure sono pronte: riflessi, salti, blocchi, labirinti, ricordi e corse. Scegli la tua!",
     ),
   );
   head.append(words);
@@ -304,12 +304,12 @@ function playGame(id) {
       play.inert = ctx.paused;
     });
     PLAYABLE[id](ctx);
-    main.focus({preventScroll:true});
+    main.focus({ preventScroll: true });
     shell.scrollIntoView({ block: "start", behavior: "instant" });
   };
   pause.onclick = () => {
     if (activeSession) activeSession.setPaused(!activeSession.paused);
-    main.focus({preventScroll:true});
+    main.focus({ preventScroll: true });
   };
   help.onclick = () => openRadio(id);
 }

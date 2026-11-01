@@ -1183,3 +1183,232 @@ footer {
     height: 350px;
   }
 }
+.temple-game {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.temple-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--size), 1fr);
+  width: min(100%, 52vh, 550px);
+  aspect-ratio: 1;
+  border: 5px solid #a98a50;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #e9cd8c;
+  touch-action: none;
+  box-shadow: 0 5px 0 #755c35;
+}
+.temple-cell {
+  min-width: 0;
+  position: relative;
+}
+.temple-cell[data-tile="wall"] {
+  background: linear-gradient(135deg, #776343, #3e4b3c);
+  box-shadow:
+    inset 1px 1px #c0a46b66,
+    inset -1px -1px #233c3466;
+}
+.temple-cell[data-tile="exit"] {
+  background: #f6d06f url("../icons/compass.svg") center/90% no-repeat;
+}
+.temple-cell.explorer:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff4cb url("../assets/explorer-token.svg") center/contain
+    no-repeat;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #347e6e;
+}
+.temple-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 68px);
+  gap: 8px;
+}
+.temple-controls button {
+  min-height: 60px;
+  padding: 8px;
+  touch-action: none;
+}
+.temple-controls [data-direction="Su"] {
+  grid-column: 2;
+}
+.temple-controls [data-direction="Sinistra"] {
+  grid-column: 1;
+  grid-row: 2;
+}
+.temple-controls [data-direction="Giù"] {
+  grid-column: 2;
+  grid-row: 2;
+}
+.temple-controls [data-direction="Destra"] {
+  grid-column: 3;
+  grid-row: 2;
+}
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 530px;
+  margin: auto;
+}
+.memory-card {
+  position: relative;
+  width: 100%;
+  min-height: 56px;
+  aspect-ratio: 1.15;
+  padding: 0;
+  border: 3px solid #b48b45;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #123c36;
+  box-shadow: 0 4px 0 #9e804a;
+}
+.memory-back {
+  position: absolute;
+  inset: 8px;
+  border: 1px solid #d9b465;
+  background: radial-gradient(ellipse, #3a8069, #143d37);
+  border-radius: 7px;
+}
+.memory-back:after {
+  content: "";
+  position: absolute;
+  inset: 17%;
+  background: url("../icons/compass.svg") center/contain no-repeat;
+}
+.memory-art {
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/adventure-atlas.webp");
+  background-size: 400% 300%;
+  background-position: calc(var(--col) * 100% / 3) calc(var(--row) * 50%);
+}
+.memory-card.matched {
+  opacity: 1;
+  border-color: #2d8970;
+  box-shadow: 0 0 0 2px #68b39a;
+}
+.memory-card:disabled:not(.matched) {
+  opacity: 1;
+  cursor: wait;
+}
+@media (max-width: 650px) {
+  .temple-grid {
+    width: min(100%, 420px);
+  }
+  .temple-game {
+    gap: 18px;
+  }
+  .temple-controls {
+    grid-template-columns: repeat(3, 64px);
+  }
+  .memory-grid {
+    gap: 8px;
+  }
+  .memory-card {
+    border-width: 2px;
+    aspect-ratio: 1;
+  }
+  .memory-back {
+    inset: 4px;
+  }
+}
+@media (orientation: landscape) and (max-height: 850px) and (min-width: 651px) {
+  .temple-grid {
+    width: min(48vh, 440px);
+  }
+  .memory-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    max-width: 690px;
+  }
+}
+.road-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(340px, 52vh, 560px);
+  overflow: hidden;
+  background: #291a48;
+  border: 4px solid #b99952;
+  border-radius: 18px;
+}
+.road-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+.road-overlay {
+  position: absolute;
+  inset: 12%;
+  background: #fff3d9f2;
+  border: 2px solid #af8d53;
+  border-radius: 18px;
+  overflow: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  text-align: center;
+}
+.road-overlay h2 {
+  margin: 0;
+  font-size: 28px;
+}
+.road-overlay p {
+  line-height: 1.5;
+  margin: 8px 0;
+}
+.road-overlay button {
+  min-height: 48px;
+}
+.road-controls {
+  justify-content: center;
+}
+.road-controls button {
+  flex: 1;
+  max-width: 300px;
+  min-height: 60px;
+}
+.road-popup {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: #fff3d9;
+  color: #163e36;
+  font-weight: 900;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  pointer-events: none;
+  box-shadow: 0 4px 12px #0005;
+}
+.road-credit {
+  text-align: center;
+  font-size: 12px;
+  color: #576547;
+}
+@media (max-width: 650px) {
+  .road-stage {
+    height: 380px;
+  }
+  .road-overlay {
+    inset: 5%;
+    padding: 18px;
+  }
+  .road-overlay p {
+    font-size: 13px;
+  }
+  .road-overlay h2 {
+    font-size: 24px;
+  }
+}
+@media (orientation: landscape) and (max-height: 850px) and (min-width: 651px) {
+  .road-stage {
+    height: 380px;
+  }
+}

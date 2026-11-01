@@ -1,5 +1,6 @@
 export function createGameSession({ play, store, id, stage, info, onReward }) {
   const controller = new AbortController();
+  const cleaners = [];
   let disposed = false,
     paused = false,
     last = 0,
@@ -8,6 +9,10 @@ export function createGameSession({ play, store, id, stage, info, onReward }) {
     play,
     stage,
     difficulty: store.data.settings.difficulty,
+    soundEnabled: store.data.settings.sound,
+    onCleanup(fn) {
+      cleaners.push(fn);
+    },
     tip: null,
     get paused() {
       return paused;
@@ -54,6 +59,7 @@ export function createGameSession({ play, store, id, stage, info, onReward }) {
       disposed = true;
       cancelAnimationFrame(frame);
       controller.abort();
+      cleaners.reverse().forEach((fn) => fn());
     },
   };
   ctx.listen(window, "blur", () => ctx.setPaused(true));

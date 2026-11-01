@@ -66,7 +66,9 @@ export const GAMES = Object.freeze(
       phase,
       number: i + 1,
       region: REGIONS[i],
-      status: ["roach", "runner", "tetris"].includes(id)
+      status: ["roach", "runner", "tetris", "maze", "memory", "car"].includes(
+        id,
+      )
         ? "playable"
         : "planned",
       missions: 5,
