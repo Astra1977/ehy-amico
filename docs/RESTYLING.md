@@ -2,11 +2,11 @@
 
 Base: `main`, commit `d8e4c80`. Branch: `codex/restyling-avventura`.
 
-## Stato: revisione grafica, immagine principale ancora da integrare
+## Illustrazione principale approvata integrata
 
-L’illustrazione approvata dei protagonisti è visibile nella conversazione ma non è stata esposta come file scaricabile nell’ambiente. Non è stata ricreata, sostituita con una sua imitazione o dichiarata integrata. La home usa ancora `assets/hero.svg`, l’illustrazione provvisoria della Fase 1. Occorre fornire il file PNG/JPG/WebP dell’illustrazione approvata prima di completare questa attività.
+La home usa `assets/hero-approved.jpg`, estratto dall’archivio fornito dall’utente e conservato byte per byte: 1097 × 1200 pixel, 447959 byte (circa 448 KB). Il file è già ottimizzato; non è stato ritagliato, ricompresso, rigenerato o alterato. Non contiene tag EXIF né commenti JPEG. SHA-256: `8a687789aacfb17dc0b84719f622cc7de03acb5909e7f42b04db34d7dfd03cfe`.
 
-Lo spazio è pronto: `js/artwork.js` centralizza sorgente, testo alternativo e dimensioni. Quando il file sarà disponibile, salvarne una versione WebP in `assets/hero-approved.webp`, aggiornare `HERO_ART.src`, il testo alternativo e `approved`, quindi rigenerare la cache e ripetere i controlli su telefono/tablet. Nessun caricamento remoto a runtime. La hero usa `object-fit: contain`, senza crop e senza sovrapporre testo ai volti: il ritratto completo resta nel proprio pannello anche su schermi piccoli.
+`js/artwork.js` centralizza sorgente, testo alternativo e dimensioni. La hero usa `object-fit: contain`, senza crop e senza sovrapporre testo ai volti: il ritratto completo resta nel proprio pannello anche su schermi piccoli. Titolo e pulsante sono testo HTML accessibile. Il JPEG è incluso nella cache versionata, senza richieste remote a runtime. L’illustrazione provvisoria non viene più usata dalla home.
 
 ## Interventi
 
@@ -24,10 +24,10 @@ Nessuna fotografia o informazione personale aggiunta. La risorsa generata raffig
 
 ## Verifiche
 
-- `npm run build`: precache aggiornato con impronta dei contenuti, inclusi atlante, medaglia e configurazione della hero.
+- `npm run build`: precache aggiornato con impronta dei contenuti, inclusi JPEG approvato, atlante, medaglia e configurazione della hero.
 - `npm test`: 7 test logica/PWA superati.
-- `CHROMIUM_PATH=/usr/bin/chromium npx playwright test`: 12 scenari browser superati, compresi offline, aggiornamento reale del worker, persistenza, compatibilità dell’ID `car`, 12 frammenti, medaglie, cambio percorso/griglia, touch emulato e responsive.
-- Screenshot home a 360/768/1280 px; mappa, diario e tesori a 360/768/1024 px, senza overflow della pagina. Controllo visivo delle schermate tablet e telefono.
+- `CHROMIUM_PATH=/usr/bin/chromium npx playwright test`: 15 scenari browser superati, compresi offline, aggiornamento reale del worker, persistenza, compatibilità dell’ID `car`, 12 frammenti, medaglie, cambio percorso/griglia, touch emulato e responsive.
+- Screenshot home a 360/768/1280 px; mappa, diario e tesori a 360/768/1024 px, senza overflow della pagina. Controllo visivo delle schermate tablet, telefono e desktop. Tre scenari dedicati verificano dimensioni naturali, contenimento completo nel pannello e caricamento offline del JPEG con lo stesso SHA-256 del caricamento online.
 - `git diff --check`.
 
-I test utilizzano Chromium su Linux e touch emulato. Da verificare su dispositivi reali: installazione iOS/Android, modalità standalone, rotazione e ripresa dal background. Da verificare dopo aver ricevuto il file: resa e visibilità effettiva dei protagonisti dell’illustrazione definitiva. Le meccaniche di gioco restano fuori dall’attività.
+I test utilizzano Chromium su Linux e touch emulato. Da verificare su dispositivi reali: installazione iOS/Android, modalità standalone, rotazione e ripresa dal background. Le meccaniche di gioco restano fuori dall’attività.

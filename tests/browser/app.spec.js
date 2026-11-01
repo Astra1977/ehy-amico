@@ -227,3 +227,29 @@ test('nuove illustrazioni e percorso disponibili offline', async ({page,context}
  await page.getByRole('link',{name:'Tesori',exact:true}).click();
  await expect(page.locator('.fragment')).toHaveCount(12);
 });
+
+for (const width of [360, 768, 1280]) {
+  test('illustrazione approvata completa e offline ' + width, async ({page, context}) => {
+    await page.setViewportSize({width, height:1024});
+    await page.goto('./');
+    const hero = page.locator('.hero-portrait');
+    await expect(hero).toHaveAttribute('src','./assets/hero-approved.jpg');
+    await expect.poll(()=>hero.evaluate(img=>img.complete && img.naturalWidth===1097 && img.naturalHeight===1200)).toBe(true);
+    expect(await hero.evaluate(img=>getComputedStyle(img).objectFit)).toBe('contain');
+    const bounds=await hero.boundingBox();
+    const frame=await page.locator('.hero-visual').boundingBox();
+    expect(bounds.x).toBeGreaterThanOrEqual(frame.x);
+    expect(bounds.x+bounds.width).toBeLessThanOrEqual(frame.x+frame.width+1);
+    expect(bounds.y).toBeGreaterThanOrEqual(frame.y);
+    expect(bounds.y+bounds.height).toBeLessThanOrEqual(frame.y+frame.height+1);
+    await page.screenshot({path:'work/hero-approved-'+width+'.png',fullPage:true,animations:'disabled'});
+    await expect(page.locator('#offline')).toContainText('Zaino pronto');
+    await expect.poll(()=>page.evaluate(()=>!!navigator.serviceWorker.controller)).toBe(true);
+    const before=await hero.evaluate(async img=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await (await fetch(img.src)).arrayBuffer()))).map(n=>n.toString(16).padStart(2,'0')).join(''));
+    await context.setOffline(true);
+    await page.reload();
+    await expect.poll(()=>hero.evaluate(img=>img.complete && img.naturalWidth===1097)).toBe(true);
+    const after=await hero.evaluate(async img=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await (await fetch(img.src)).arrayBuffer()))).map(n=>n.toString(16).padStart(2,'0')).join(''));
+    expect(after).toBe(before);
+  });
+}
