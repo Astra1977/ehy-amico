@@ -1,3 +1,6 @@
+import { jurassic } from "./jurassic-game.js";
+import { timeMachine } from "./time-game.js";
+import { EDUCATION_OBJECTIVES } from "./education-data.js";
 import { road, ROAD_OBJECTIVES, ROAD_HINTS } from "./road-game.js";
 import {
   maze,
@@ -14,6 +17,7 @@ import {
 } from "./arcade-engines.js";
 import { TetrisEngine, SHAPES, BLOCK_COLORS } from "./tetris-engine.js";
 export const OBJECTIVES = {
+  ...EDUCATION_OBJECTIVES,
   ...PUZZLE_OBJECTIVES,
   car: ROAD_OBJECTIVES,
   roach: ROACH_GOALS.map(
@@ -24,6 +28,16 @@ export const OBJECTIVES = {
   tetris: TETRIS_GOALS.map((n) => `Elimina ${n} righe nella stessa partita`),
 };
 export const GAME_HINTS = {
+  jurassic: [
+    "Ehy Amico! Un reperto alla volta: osserva, scava e ricostruisci.",
+    "Usa il pennello vicino alle ossa e confronta le forme.",
+    "Ogni osso racconta una storia: puoi chiedere ancora aiuto durante la missione.",
+  ],
+  time: [
+    "Ehy Amico! Costruisci l’energia del portale con i comandi.",
+    "Conta, confronta e riprova: qui non c’è fretta.",
+    "I meccanismi si riparano un passo alla volta.",
+  ],
   ...PUZZLE_HINTS,
   car: ROAD_HINTS,
   roach: [
@@ -436,4 +450,13 @@ export function tetris(ctx) {
   update();
   draw();
 }
-export const PLAYABLE = { roach, runner, tetris, maze, memory, car: road };
+export const PLAYABLE = {
+  roach,
+  runner,
+  tetris,
+  maze,
+  memory,
+  car: road,
+  jurassic,
+  time: timeMachine,
+};

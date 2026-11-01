@@ -3,6 +3,12 @@ import { createStore, totals } from "./progress.js";
 import "./pwa.js";
 import { PLAYABLE, OBJECTIVES, GAME_HINTS } from "./arcade-games.js";
 import { createGameSession } from "./game-session.js";
+import { renderMuseum, museumEntries } from "./jurassic-game.js";
+import {
+  JURASSIC_MISSIONS,
+  TIME_DESTINATIONS,
+  TIME_TITLES,
+} from "./education-data.js";
 import { HERO_ART } from "./artwork.js";
 let storage;
 try {
@@ -21,7 +27,7 @@ const store = createStore(storage),
   main = document.querySelector("main"),
   radio = document.querySelector("#radio");
 const hints = [
-  "Esplora la mappa: ogni tappa custodirà un frammento della Bussola del Tempo. Le prime sei avventure ti aspettano già!",
+  "Esplora la mappa: ogni tappa custodirà un frammento della Bussola del Tempo. Le prime otto avventure ti aspettano già!",
   "Cinque obiettivi per ogni avventura, cinque tesori da conquistare. Il frammento si ricompone quando li completi tutti!",
   "Il Diario raccoglierà ciò che scopri giocando. Non serve correre: osservare è il primo superpotere di un esploratore.",
 ];
@@ -29,7 +35,8 @@ let hint = 0;
 let activeSession = null;
 let currentHints = hints;
 function openRadio(id) {
-  currentHints = GAME_HINTS[id] || hints;
+  currentHints = activeSession?.getHints?.() || GAME_HINTS[id] || hints;
+  activeSession?.onHint?.(0);
   hint = 0;
   document.querySelector("#hint").textContent = currentHints[0];
   document.querySelector("#more").disabled = false;
@@ -141,7 +148,7 @@ function showHome() {
     el("h2", "Scegli la prossima scoperta"),
     el(
       "p",
-      "Sei avventure sono pronte: riflessi, salti, blocchi, labirinti, ricordi e corse. Scegli la tua!",
+      "Otto avventure sono pronte: i mondi della scienza e del tempo ti aspettano!",
     ),
   );
   head.append(words);
@@ -189,6 +196,7 @@ function game(id) {
   main.append(panel);
 }
 function playGame(id) {
+  let begun = false;
   const g = gameById(id);
   heading(
     g.name,
@@ -245,7 +253,26 @@ function playGame(id) {
     hud.textContent = "Record " + store.data.games[id].best;
   };
   paintGoal();
+  if (id === "jurassic" || id === "time") {
+    shell.insertBefore(
+      el(
+        "p",
+        id === "jurassic"
+          ? "Usa gli strumenti, ricostruisci i reperti e confronta gli indizi. I salvataggi intermedi ti permettono di riprendere la spedizione."
+          : "Costruisci circuiti, gruppi e misure. Il portale si attiva soltanto con meccanismi funzionanti; non c’è un conto alla rovescia.",
+        "edu-introduction",
+      ),
+      stageRow,
+    );
+    if (id === "jurassic")
+      shell.insertBefore(
+        link("Museo del Tempo", "museum", "button secondary"),
+        stageRow,
+      );
+  }
   select.onchange = () => {
+    begun = false;
+    shell.classList.remove("education-active");
     activeSession?.dispose();
     activeSession = null;
     play.replaceChildren();
@@ -266,7 +293,13 @@ function playGame(id) {
     pause.hidden = false;
     pause.textContent = "Pausa";
     start.textContent = "Riprova";
+    const restart = begun;
+    begun = true;
+    if (id === "jurassic" || id === "time")
+      shell.classList.add("education-active");
     const ctx = createGameSession({
+      restart,
+      onSave: () => warning(),
       play,
       store,
       id,
@@ -346,6 +379,33 @@ function diary() {
       );
     }
     p.append(link("Continua l’avventura", "map"));
+  }
+  if (store.data.games.jurassic.completed || museumEntries(store.data).length) {
+    p.append(el("h2", "Reperti della valle"));
+    for (let n = 0; n < store.data.games.jurassic.completed; n++)
+      p.append(
+        el("h3", JURASSIC_MISSIONS[n].title),
+        el("p", JURASSIC_MISSIONS[n].lesson),
+      );
+    for (const entry of museumEntries(store.data))
+      p.append(
+        el(
+          "p",
+          (entry.complete ? entry.name : "In studio: " + entry.name) +
+            " — " +
+            entry.artifacts.join(", ") +
+            ".",
+        ),
+      );
+    p.append(link("Apri il Museo del Tempo", "museum"));
+  }
+  if (store.data.games.time.completed) {
+    p.append(el("h2", "Destinazioni ritrovate"));
+    for (let n = 0; n < store.data.games.time.completed; n++)
+      p.append(
+        el("h3", TIME_TITLES[n] + " · " + TIME_DESTINATIONS[n][0]),
+        el("p", TIME_DESTINATIONS[n][1]),
+      );
   }
   main.append(p);
 }
@@ -479,6 +539,8 @@ function settings() {
   }
   select.value = store.data.settings.difficulty;
   select.onchange = () => {
+    begun = false;
+    shell.classList.remove("education-active");
     store.data.settings.difficulty = Number(select.value);
     store.save();
     warning();
@@ -523,6 +585,7 @@ function render() {
   else if (route === "map") {
     adventureMap();
   } else if (route === "diary") diary();
+  else if (route === "museum") renderMuseum(main, store.data);
   else if (route === "rewards") rewards();
   else if (route === "settings") settings();
   else if (route.startsWith("game/")) game(route.slice(5));
@@ -540,6 +603,7 @@ function render() {
 document.querySelector("#hint").textContent = hints[0];
 document.querySelector("#more").onclick = () => {
   hint = Math.min(hint + 1, currentHints.length - 1);
+  activeSession?.onHint?.(hint);
   document.querySelector("#hint").textContent = currentHints[hint];
   document.querySelector("#more").disabled = hint === currentHints.length - 1;
 };

@@ -1412,3 +1412,679 @@ footer {
     height: 380px;
   }
 }
+.education-game {
+  position: relative;
+  background: linear-gradient(135deg, #fff8e8, #f2e2bb);
+  border: 1px solid #bf9e61;
+  border-radius: 18px;
+  padding: 24px;
+  overflow-wrap: anywhere;
+}
+.education-game h2 {
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.25;
+}
+.education-game h3 {
+  font-size: 20px;
+}
+.education-game p {
+  line-height: 1.65;
+}
+.education-game progress {
+  width: 100%;
+  height: 18px;
+  accent-color: #297a67;
+}
+.edu-feedback {
+  padding: 16px;
+  background: #e6efdc;
+  border-left: 5px solid #4b8c70;
+  border-radius: 10px;
+  min-height: 60px;
+  font-weight: 700;
+}
+.edu-toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+.education-game button {
+  min-height: 52px;
+}
+.education-game [aria-pressed="true"],
+.education-game .selected {
+  outline: 3px solid #dba03b;
+  outline-offset: 2px;
+  background: #295e4d;
+}
+.edu-instruction {
+  font-size: 15px;
+  color: #405f52;
+}
+.strata-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14px;
+}
+.strata-key span {
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: #b48a55;
+  color: #102f28;
+}
+.strata-key span:nth-child(2) {
+  background: #d5b779;
+}
+.strata-key span:nth-child(3) {
+  background: #f4dfac;
+}
+.dig-field {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px;
+  margin: 18px 0;
+  border: 4px solid #916c3d;
+  border-radius: 18px;
+  background: repeating-linear-gradient(
+    0deg,
+    #c3a065 0 40px,
+    #ac844d 40px 80px,
+    #d4b27b 80px 120px
+  );
+  touch-action: none;
+}
+.dig-patch {
+  position: relative;
+  min-height: 160px;
+  padding: 12px;
+  background: #f2dcaa;
+  color: #493820;
+  overflow: hidden;
+  border: 2px solid #84633f;
+  isolation: isolate;
+  touch-action: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+}
+.dig-patch img {
+  width: 100%;
+  height: 90px;
+  object-fit: contain;
+}
+.soil-cover {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    20deg,
+    #9f7440 0 20px,
+    #b98c54 20px 28px,
+    #b4874f 28px 40px
+  );
+  transition: opacity 0.25s;
+}
+.dig-patch.depth-2 .soil-cover {
+  z-index: 2;
+  opacity: 1;
+}
+.dig-patch.depth-1 .soil-cover {
+  z-index: 2;
+  opacity: 0.45;
+}
+.dig-patch.depth-2 .soil-label {
+  color: #fff8e5;
+  z-index: 3;
+}
+.soil-label {
+  font-size: 14px;
+  position: relative;
+}
+.dig-patch.depth-1 img {
+  opacity: 0.5;
+}
+.education-game .suggested {
+  outline: 4px solid #e9a83e;
+  outline-offset: 2px;
+  box-shadow: 0 0 16px #f9bd4d88;
+}
+.fossil-tray {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px;
+  background: #c3aa7b44;
+  border-radius: 14px;
+}
+.fossil-piece {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 88px;
+  width: 120px;
+  max-width: 45%;
+  padding: 12px;
+  background: #f9eac6;
+  color: #264b3d;
+  border: 2px solid #ac8b4c;
+  touch-action: none;
+}
+.fossil-piece img {
+  width: 72px;
+  height: 72px;
+  max-width: 100%;
+  object-fit: contain;
+}
+.fossil-piece span {
+  font-size: 14px;
+}
+.skeleton-board {
+  position: relative;
+  height: 430px;
+  max-width: 760px;
+  margin: 20px auto;
+  background: radial-gradient(#b8d1bb77, transparent 70%), #f9f2d9;
+  border: 2px solid #ad945d;
+  border-radius: 18px;
+}
+.skeleton-board:before {
+  content: "";
+  position: absolute;
+  top: 42%;
+  left: 15%;
+  width: 65%;
+  border-top: 3px dashed #ac956b88;
+  transform: rotate(-6deg);
+}
+.bone-slot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 88px;
+  min-height: 90px;
+  padding: 6px;
+  background: #e3d5ad88;
+  color: #244c3d;
+  border: 2px dashed #a48b57;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-content: center;
+}
+.bone-slot img {
+  width: 56px;
+  height: 48px;
+  max-width: 100%;
+  opacity: 0.3;
+  object-fit: contain;
+}
+.bone-slot span {
+  font-size: 13px;
+  line-height: 1.2;
+}
+.bone-slot.placed {
+  background: #e6dfb7;
+  border-style: solid;
+  border-color: #43816a;
+  opacity: 1;
+}
+.bone-slot.placed img {
+  opacity: 1;
+}
+.evidence-card {
+  background: #fff6db;
+  border: 2px solid #bc9a59;
+  border-radius: 16px;
+  padding: 22px;
+  margin: 18px 0;
+}
+.evidence-card > img {
+  width: 120px;
+  height: 100px;
+  float: right;
+}
+.edu-drag-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  max-width: 130px;
+  min-width: 80px;
+  min-height: 70px;
+  padding: 10px;
+  border: 2px solid #c9953e;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px #0005;
+  background: #fff2cf;
+  color: #244c3d;
+  font: 700 16px system-ui;
+}
+.edu-drag-ghost img {
+  max-width: 70px;
+  max-height: 70px;
+}
+.edu-drag-ghost span {
+  font-size: 12px;
+}
+.edu-target {
+  background: #17483d;
+  color: #fff3ce;
+  padding: 18px;
+  border-radius: 12px;
+  font-weight: 800;
+}
+.battery-tray,
+.energy-circuit,
+.sequence-rack {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+.energy-battery {
+  position: relative;
+  width: 90px;
+  height: 110px;
+  border: 3px solid #c89541;
+  background: linear-gradient(#5b9f7f, #2c6a56);
+  font-size: 28px;
+  touch-action: none;
+}
+.energy-battery:before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  width: 36px;
+  height: 10px;
+  background: #c89541;
+  border-radius: 4px 4px 0 0;
+}
+.energy-battery:disabled,
+.sequence-card:disabled {
+  opacity: 0.3;
+}
+.sequence-card {
+  width: 78px;
+  height: 78px;
+  background: #f4d282;
+  color: #244b3d;
+  border: 3px solid #ac843b;
+  font-size: 24px;
+  touch-action: none;
+}
+.energy-slot {
+  min-width: 115px;
+  min-height: 95px;
+  background: #e9dfbe;
+  color: #244b3d;
+  border: 3px dashed #527d61;
+  font-size: 20px;
+}
+.energy-slot:hover {
+  background: #d3ddbf;
+}
+.energy-meter,
+.clock-readout,
+.sequence-readout {
+  display: block;
+  padding: 16px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 900;
+  color: #17483e;
+  background: #f8edcf;
+  border: 1px solid #bea571;
+  border-radius: 12px;
+  margin: 18px 0;
+  font-variant-numeric: tabular-nums;
+}
+.gear-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+.gear-group {
+  padding: 14px;
+  background: #f5e4b9;
+  border: 2px solid #b39558;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.gear-group h3 {
+  margin: 0;
+  text-align: center;
+}
+.gear-group button {
+  padding: 10px;
+  font-size: 14px;
+}
+.gear-wheel {
+  min-height: 110px;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background: radial-gradient(#f9e9a9, #c6a560);
+  border: 8px dashed #9b793c;
+  border-radius: 50%;
+}
+.gear-wheel strong {
+  width: 100%;
+  text-align: center;
+  font-size: 24px;
+}
+.crystal-dot {
+  width: 12px;
+  height: 17px;
+  background: #278f83;
+  clip-path: polygon(50% 0, 100% 25%, 80% 85%, 50% 100%, 20% 85%, 0 25%);
+}
+.crystal-source {
+  touch-action: none;
+}
+.measure-bottle {
+  min-width: 100px;
+  min-height: 75px;
+  background: #287b73;
+  border: 3px solid #a3d4c6;
+  touch-action: none;
+}
+.fuel-tank {
+  position: relative;
+  height: 330px;
+  width: min(280px, 85%);
+  border: 5px solid #528275;
+  border-top: 0;
+  border-radius: 0 0 30px 30px;
+  margin: 35px auto 25px;
+  background: #d0e5da;
+  isolation: isolate;
+  overflow: visible;
+}
+.tank-liquid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(#60c6c3, #277c8c);
+  border-radius: 0 0 24px 24px;
+  z-index: -1;
+  transition: height 0.3s;
+}
+.tank-tick {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #244f4b88;
+  text-align: right;
+  padding-right: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #143d38;
+}
+.time-clock {
+  display: block;
+  width: 230px;
+  max-width: 85%;
+  margin: 24px auto;
+}
+.clock-readout {
+  font-size: 32px;
+}
+.coordinate-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--size), minmax(0, 1fr));
+  max-width: 440px;
+  margin: 24px auto;
+  background: #e2e6c4;
+  border: 3px solid #a5935e;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.coordinate-cell {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid #a7b398;
+  font-size: 14px;
+}
+.coordinate-cell.current {
+  background: #f6ce73;
+  box-shadow: inset 0 0 0 3px #397d67;
+  font-weight: 900;
+}
+.visual-hint {
+  padding: 18px;
+  background: #fff4c5;
+  border: 2px dashed #c7953e;
+  border-radius: 14px;
+}
+.portal-ring {
+  width: 190px;
+  height: 190px;
+  max-width: 90%;
+  margin: 28px auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      #d1f4dc 0 18%,
+      #70c7b6 28%,
+      #216966 40%,
+      transparent 43%
+    ),
+    conic-gradient(#b47c2c, #ffe494, #a96c2e, #f8cf75, #b47c2c);
+  box-shadow:
+    0 0 0 8px #a9c7a455,
+    0 0 35px #57ad9a66;
+  animation: portal-turn 5s ease-in-out 1;
+}
+.arrival-scene {
+  padding: 26px;
+  border: 2px solid #caa15c;
+  border-radius: 22px;
+  background: radial-gradient(ellipse at 50% 25%, #4b9b7b, #123c36);
+  color: #fff3cc;
+  text-align: center;
+}
+.arrival-scene h2 {
+  color: #f8d67c;
+}
+.radio-celebration {
+  font-weight: 800;
+  padding: 18px;
+  border-radius: 12px;
+  background: #fff0bd;
+  color: #674b26;
+}
+.success-wheel {
+  display: inline-block;
+  border: 5px dashed #c19b4d;
+  border-radius: 50%;
+  padding: 16px;
+  font-weight: 800;
+  background: #f8e4aa;
+  animation: gear-turn 1s ease-out;
+}
+.museum-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 30px 0;
+}
+.museum-card {
+  margin: 0;
+}
+.museum-card > img {
+  width: 140px;
+  height: 110px;
+  float: right;
+}
+.museum-card p {
+  line-height: 1.7;
+}
+@keyframes portal-turn {
+  0% {
+    transform: scale(0.85) rotate(-45deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+@keyframes gear-turn {
+  from {
+    transform: rotate(-25deg);
+  }
+  to {
+    transform: rotate(0);
+  }
+}
+@media (max-width: 650px) {
+  .education-game {
+    padding: 16px;
+  }
+  .education-game h2 {
+    font-size: 23px;
+  }
+  .edu-toolbar {
+    gap: 8px;
+  }
+  .edu-toolbar button {
+    font-size: 14px;
+    padding: 12px;
+  }
+  .dig-field {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 10px;
+  }
+  .dig-patch {
+    min-height: 140px;
+    padding: 8px;
+  }
+  .dig-patch img {
+    height: 72px;
+  }
+  .bone-slot {
+    width: 66px;
+    min-height: 80px;
+  }
+  .bone-slot img {
+    height: 38px;
+    width: 44px;
+  }
+  .bone-slot span {
+    font-size: 12px;
+  }
+  .fossil-tray {
+    gap: 8px;
+    padding: 10px;
+  }
+  .fossil-piece {
+    width: 100px;
+    padding: 8px;
+  }
+  .skeleton-board {
+    height: 440px;
+  }
+  .battery-tray {
+    gap: 12px;
+  }
+  .energy-battery {
+    width: 75px;
+    height: 95px;
+  }
+  .energy-slot {
+    min-width: 100px;
+    min-height: 75px;
+    font-size: 18px;
+  }
+  .gear-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .gear-group {
+    padding: 10px;
+  }
+  .gear-wheel {
+    min-height: 95px;
+    padding: 9px;
+    border-width: 6px;
+  }
+  .gear-group h3 {
+    font-size: 17px;
+  }
+  .gear-group button {
+    font-size: 12px;
+    padding: 8px;
+  }
+  .museum-grid {
+    grid-template-columns: 1fr;
+  }
+  .museum-card > img {
+    width: 95px;
+    height: 90px;
+  }
+  .coordinate-cell {
+    font-size: 12px;
+  }
+  .fuel-tank {
+    height: 290px;
+  }
+  .tank-tick {
+    font-size: 12px;
+  }
+}
+.education-active .edu-introduction {
+  display: none;
+}
+.education-game:before {
+  content: "";
+  display: block;
+  height: 120px;
+  margin: 0 0 24px;
+  border-radius: 12px;
+  background: url("../assets/adventure-atlas.webp");
+  background-size: 400% 300%;
+  background-position: 66.6667% 50%;
+  box-shadow: inset 0 -18px 25px #123c3622;
+  pointer-events: none;
+}
+.time-game:before {
+  background-position: 100% 50%;
+}
+.dig-patch.depth-0 .soil-cover {
+  opacity: 0;
+}
+@media (max-width: 650px) {
+  .education-game:before {
+    height: 100px;
+  }
+}
+.trace-button {
+  background: #e4d2a6;
+  color: #254b3e;
+  border: 2px solid #a68a50;
+  gap: 18px;
+  margin: 15px 0;
+}
+.trace-button img {
+  width: 80px;
+  height: 80px;
+}
+.trace-button:disabled {
+  opacity: 0.6;
+}
