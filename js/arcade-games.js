@@ -1,3 +1,10 @@
+import { road, ROAD_OBJECTIVES, ROAD_HINTS } from "./road-game.js";
+import {
+  maze,
+  memory,
+  PUZZLE_OBJECTIVES,
+  PUZZLE_HINTS,
+} from "./puzzle-games.js";
 import {
   RoachEngine,
   RunnerEngine,
@@ -7,6 +14,8 @@ import {
 } from "./arcade-engines.js";
 import { TetrisEngine, SHAPES, BLOCK_COLORS } from "./tetris-engine.js";
 export const OBJECTIVES = {
+  ...PUZZLE_OBJECTIVES,
+  car: ROAD_OBJECTIVES,
   roach: ROACH_GOALS.map(
     (n, i) =>
       `${n} catture in 35 secondi, massimo ${4 - i} errori${i === 4 ? " e un boss sconfitto" : ""}`,
@@ -15,6 +24,8 @@ export const OBJECTIVES = {
   tetris: TETRIS_GOALS.map((n) => `Elimina ${n} righe nella stessa partita`),
 };
 export const GAME_HINTS = {
+  ...PUZZLE_HINTS,
+  car: ROAD_HINTS,
   roach: [
     "Ehy Amico! Tocca le cucaracha, ma lascia tranquille le coccinelle: sono amiche del giardino!",
     "Il boss ha cinque punti energia: colpiscilo cinque volte. Non scompare dopo il primo colpo!",
@@ -425,4 +436,4 @@ export function tetris(ctx) {
   update();
   draw();
 }
-export const PLAYABLE = { roach, runner, tetris };
+export const PLAYABLE = { roach, runner, tetris, maze, memory, car: road };

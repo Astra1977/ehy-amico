@@ -19,7 +19,16 @@ test("navigazione, dodici schede, radio, tastiera, preferenze e offline", async 
     .evaluateAll((nodes) => nodes.map((n) => n.hash));
   for (const id of ids) {
     await page.goto("./" + id);
-    if (["#game/roach", "#game/runner", "#game/tetris"].includes(id))
+    if (
+      [
+        "#game/roach",
+        "#game/runner",
+        "#game/tetris",
+        "#game/maze",
+        "#game/memory",
+        "#game/car",
+      ].includes(id)
+    )
       await expect(
         page.getByRole("button", { name: "Inizia partita" }),
       ).toBeVisible();
