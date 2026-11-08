@@ -196,6 +196,14 @@ export function atlas(ctx) {
         "viewBox",
         `${pan.x} ${pan.y} ${960 / zoom} ${560 / zoom}`,
       );
+      for (const marker of group.querySelectorAll("[data-city]")) {
+        const p = project(city(marker.dataset.city));
+        marker.setAttribute(
+          "transform",
+          `translate(${p.x} ${p.y}) scale(${1 / zoom}) translate(${-p.x} ${-p.y})`,
+        );
+      }
+      moveCamper();
     };
     updateView();
     group.append(
@@ -213,6 +221,7 @@ export function atlas(ctx) {
         fill: e.s.neighbors.includes(s.name) ? "#f8cb55" : "#c9dea3",
         stroke: "#648975",
         "stroke-width": 0.7,
+        "vector-effect": "non-scaling-stroke",
         tabindex: 0,
         role: "button",
         "aria-label": s.name,
@@ -255,6 +264,7 @@ export function atlas(ctx) {
         fill: "none",
         stroke: "#fff8df",
         "stroke-width": 8,
+        "vector-effect": "non-scaling-stroke",
         "stroke-linejoin": "round",
       }),
     );
@@ -264,6 +274,7 @@ export function atlas(ctx) {
         fill: "none",
         stroke: "#d48d3f",
         "stroke-width": 3,
+        "vector-effect": "non-scaling-stroke",
         "stroke-dasharray": "5 4",
       }),
     );
@@ -336,7 +347,7 @@ export function atlas(ctx) {
       svg("circle", { cx: 8, cy: 3, r: 4, fill: "#203547" }),
     );
     group.append(camper);
-    moveCamper();
+    updateView();
     const cross = svg("g", {
       transform: `translate(${marker.x} ${marker.y})`,
       display: placing ? "block" : "none",
@@ -605,7 +616,10 @@ export function atlas(ctx) {
         t = reduced ? 1 : e.travel.t;
       p = { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
     }
-    camper.setAttribute("transform", `translate(${p.x} ${p.y - 6})`);
+    camper.setAttribute(
+      "transform",
+      `translate(${p.x} ${p.y}) scale(${1 / zoom}) translate(0 -6)`,
+    );
   }
   function radioTask(task) {
     const id = e.radioTarget;
@@ -1103,7 +1117,10 @@ export function atlas(ctx) {
         e.s.footballWon = true;
         e.s.records[e.s.mode] = Math.max(
           e.s.records[e.s.mode],
-          1000 + football.yards,
+          1000 +
+            football.yards * 5 +
+            (football.airYards || 0) * 8 +
+            (e.veteran ? 200 : 0),
         );
         check();
       }

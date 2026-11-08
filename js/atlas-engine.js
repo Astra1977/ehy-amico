@@ -306,6 +306,7 @@ export class FootballEngine {
     this.ball = null;
     this.receiver = null;
     this.yards = 0;
+    this.airYards = 0;
     this.qb = { x: 50, y: 87 };
     this.receivers = [
       { x: 22, y: 78, route: "straight" },
@@ -343,6 +344,7 @@ export class FootballEngine {
     const r = this.receivers[index];
     if (!r) return false;
     this.receiver = index;
+    this.airYards = Math.max(0, Math.round(this.qb.y - r.y));
     this.ball = { x: this.qb.x, y: this.qb.y };
     return true;
   }
