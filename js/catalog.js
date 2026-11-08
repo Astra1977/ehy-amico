@@ -76,11 +76,12 @@ export const GAMES = Object.freeze(
         "jurassic",
         "time",
         "atlas",
+        "cave",
       ].includes(id)
         ? "playable"
         : "planned",
       missions: 5,
-      difficulties: id === "atlas" ? ["Esploratore", "Veterano NFL"] : ["Esploratore", "Avventuriero", "Esperto"],
+      difficulties: id === "cave" ? ["Esploratore", "Investigatore"] : id === "atlas" ? ["Esploratore", "Veterano NFL"] : ["Esploratore", "Avventuriero", "Esperto"],
     }),
   ),
 );

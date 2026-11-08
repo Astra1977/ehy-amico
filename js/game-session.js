@@ -23,8 +23,9 @@ export function createGameSession({
     onCleanup(fn) {
       cleaners.push(fn);
     },
-    readAdventure() {
-      const data = store.data.adventures?.[id]?.[stage];
+    readAdventure(requestedStage = stage) {
+      if (!Number.isInteger(requestedStage) || requestedStage < 1 || requestedStage > 5) return null;
+      const data = store.data.adventures?.[id]?.[requestedStage];
       return data ? JSON.parse(JSON.stringify(data)) : null;
     },
     saveAdventure(value) {
