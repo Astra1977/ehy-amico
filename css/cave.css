@@ -385,14 +385,6 @@
   stroke: #806d4a;
   stroke-width: 2;
 }
-.cave-mechanical-gear[data-spin="true"] {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: cave-gear-turn 3s linear infinite;
-}
-.cave-mechanical-gear[data-spin="true"]:nth-child(odd) {
-  animation-direction: reverse;
-}
 .cave-pulses button {
   background: var(--crystal);
   flex: 1;
@@ -642,4 +634,9 @@
 }
 .cave-scene[data-stage="4"] > .cave-avatar {
   bottom: 38%;
+}
+.cave-rotor[data-spin="true"] {
+  transform-box: view-box;
+  transform-origin: 50px 50px;
+  animation: cave-gear-turn 3s linear infinite;
 }

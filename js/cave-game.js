@@ -71,7 +71,6 @@ export function cave(ctx) {
     avatar,
     notice,
     audio = null,
-    animationTime = 0,
     focusTile = 2;
   const listen = (target, event, fn) =>
     target.addEventListener(event, fn, { signal: panelController.signal });
@@ -682,6 +681,7 @@ export function cave(ctx) {
       svg.append(
         vector("path", {
           d: `M${120 + (i + 0.5) * w} ${y}V70H${170 + (i + 0.5) * w}V${90 + engine.s.weights[i] * 10}`,
+          fill: "none",
           stroke: "#adc3b2",
           "stroke-width": 3,
         }),
@@ -740,10 +740,13 @@ export function cave(ctx) {
       gear.setAttribute("y", String(38 - size / 2));
       gear.setAttribute("width", String(size));
       gear.setAttribute("height", String(size));
-      gear.dataset.spin =
+      const rotor = vector("g", { class: "cave-rotor" });
+      rotor.append(...Array.from(gear.childNodes));
+      gear.append(rotor);
+      rotor.dataset.spin =
         engine.s.lever && (i === 0 || engine.gearsWorking) ? "true" : "false";
-      gear.style.animationDirection = i % 2 ? "reverse" : "normal";
-      gear.style.animationDuration = (3 * teeth) / 8 + "s";
+      rotor.style.animationDirection = i % 2 ? "reverse" : "normal";
+      rotor.style.animationDuration = (3 * teeth) / 8 + "s";
       svg.append(gear);
     }
     parent.append(svg);
@@ -970,8 +973,4 @@ export function cave(ctx) {
   });
   persist();
   paint();
-  ctx.frames((dt) => {
-    animationTime += dt;
-    root.style.setProperty("--cave-time", String(animationTime));
-  });
 }
