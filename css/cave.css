@@ -1,0 +1,645 @@
+.cave-game {
+  --night: #153149;
+  --gold: #f4d08a;
+  --mint: #87e6d3;
+  --ink: #e2f5ea;
+  color: var(--ink);
+  background: radial-gradient(ellipse at top, #30576b, #142b44 70%);
+  border: 2px solid #547b83;
+  border-radius: 24px;
+  overflow: hidden;
+  padding: clamp(12px, 3vw, 28px);
+}
+.cave-heading h2 {
+  margin: 4px 0;
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  color: #fff0c6;
+}
+.cave-heading .eyebrow {
+  color: #98e5d4;
+}
+.cave-heading p {
+  margin: 8px 0;
+}
+.cave-toolbar,
+.cave-tokens,
+.cave-code-slots,
+.cave-pulses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+.cave-game button {
+  min-height: 48px;
+  touch-action: manipulation;
+  background: #e9d6aa;
+  color: #173a4d;
+  border: 2px solid #e9d6aa;
+  border-radius: 12px;
+  box-shadow: 0 3px 0 #0d273b;
+  font-weight: 800;
+  padding: 10px 14px;
+}
+.cave-game button:hover {
+  background: #fff0c7;
+}
+.cave-game button[aria-pressed="true"],
+.cave-game button[aria-current="location"] {
+  background: #83d9ca;
+  border-color: #bffff0;
+  color: #123b4c;
+}
+.cave-game button:disabled {
+  opacity: 0.58;
+  cursor: default;
+}
+.cave-game :focus-visible {
+  outline: 3px solid #fff6b5;
+  outline-offset: 4px;
+}
+.cave-game .secondary {
+  background: #31566a;
+  color: #e3f2df;
+  border-color: #6b9b9b;
+}
+.cave-radio {
+  border: 1px solid #719796;
+  border-left: 6px solid #f2cf80;
+  background: #102d43;
+  border-radius: 12px;
+  padding: 14px;
+  min-height: 54px;
+}
+.cave-zones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border: 0;
+}
+.cave-zones button {
+  flex: 1;
+  min-width: 140px;
+  font-size: 0.9rem;
+}
+.cave-scene {
+  position: relative;
+  isolation: isolate;
+  border-radius: 18px;
+  min-height: 300px;
+  background: #17364b url("../assets/cave-world.svg") center/cover;
+  border: 3px solid #60848b;
+  overflow: hidden;
+  box-shadow: inset 0 0 50px #051b35;
+}
+.cave-scene:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 70%, transparent 25%, #09203955);
+  z-index: -1;
+}
+.cave-scene[data-zone="1"] {
+  background-position: 60% 50%;
+}
+.cave-temple {
+  background-image: url("../assets/cave-temple.svg");
+}
+.cave-avatar {
+  position: absolute;
+  bottom: 1%;
+  width: 75px;
+  height: 105px;
+  object-fit: contain;
+  z-index: 3;
+  transform: translateX(-50%) scaleX(var(--facing, 1));
+  pointer-events: none;
+  animation: cave-arrive 0.5s ease-out;
+}
+.cave-torch {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(#ffdb7980, transparent 67%);
+  top: 33%;
+  pointer-events: none;
+  animation: cave-flicker 2.7s infinite alternate;
+}
+.cave-torch-left {
+  left: 25%;
+}
+.cave-torch-right {
+  right: 24%;
+  animation-delay: -1.2s;
+}
+.cave-hotspot {
+  position: absolute !important;
+  max-width: 42%;
+  min-width: 100px;
+  border-style: dashed !important;
+  background: #173e50df !important;
+  color: #f7e7b8 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 4;
+  box-shadow: 0 0 20px #72e5cf66 !important;
+}
+.cave-glyph {
+  width: 35px;
+  height: 35px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none;
+}
+.cave-work {
+  background: #f6eedb;
+  color: #183e51;
+  border-radius: 18px;
+  padding: 18px;
+  margin-top: 14px;
+}
+.cave-work h3 {
+  margin: 0 0 8px;
+}
+.cave-work p {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+.cave-work button {
+  border-color: #a0b1a0;
+}
+.cave-code {
+  padding: 12px;
+  border: 1px solid #b4b8a0;
+  border-radius: 14px;
+  background: #fff8e9;
+}
+.cave-tokens button,
+.cave-code-slots button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.cave-code-slots {
+  padding: 10px;
+  background: #233f52;
+  border-radius: 14px;
+}
+.cave-code-slots button {
+  flex: 1;
+  min-width: 95px;
+  min-height: 75px;
+  display: flex;
+  flex-direction: column;
+}
+.cave-inventory {
+  padding: 14px;
+  border: 1px solid #71918b;
+  border-radius: 14px;
+  margin-top: 14px;
+  background: #102d43;
+}
+.cave-inventory summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffe3a3;
+}
+.cave-inventory h4 {
+  color: #96eddb;
+  margin-bottom: 4px;
+}
+.cave-caption {
+  font-size: 0.85rem;
+  color: #bed7d2;
+}
+.cave-light-board {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  position: relative;
+  max-width: 570px;
+  margin: 16px auto 55px;
+  border: 2px solid #679fa3;
+  border-radius: 12px;
+  background: #0c2639ed;
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 2;
+}
+.cave-game .cave-light-cell {
+  aspect-ratio: 1;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #3c606d;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  color: #f2dfaa;
+  font-size: clamp(1rem, 4vw, 2rem);
+  line-height: 1;
+}
+.cave-game .cave-light-cell.mirror {
+  color: #c5ffff;
+  background: #41677a;
+  font-size: clamp(1.6rem, 6vw, 3rem);
+  font-weight: 500;
+  z-index: 2;
+}
+.cave-light-cell.wall {
+  background: repeating-linear-gradient(
+    45deg,
+    #385263,
+    #385263 6px,
+    #294252 6px,
+    #294252 12px
+  );
+  color: #83988d;
+}
+.cave-light-cell.crystal[data-active="true"] {
+  filter: drop-shadow(0 0 9px currentColor);
+  background: #60c4b522;
+}
+.cave-light-cell.sensor {
+  border: 3px solid #e8cb84;
+  border-radius: 50%;
+  margin: 12%;
+}
+.cave-light-cell.source {
+  color: #ffe4a0;
+}
+.cave-ray {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  filter: drop-shadow(0 0 5px #f8da79);
+  z-index: 1;
+}
+.cave-floor {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  gap: 5px;
+  position: relative;
+  max-width: 560px;
+  margin: 16px auto 30px;
+  padding: 10px;
+  background: #112b3be8;
+  border-radius: 14px;
+  z-index: 2;
+}
+.cave-game .cave-tile {
+  min-height: 54px;
+  padding: 5px;
+  position: relative;
+  border: 2px solid #667f83;
+  background: #365568;
+  color: #e9d49e;
+  display: grid;
+  place-items: center;
+}
+.cave-game .cave-tile:disabled {
+  opacity: 0.85;
+}
+.cave-game .cave-tile:not(:disabled) {
+  background: #6a8b83;
+  color: #ffefb9;
+  border-color: #cee5b2;
+}
+.cave-game .cave-tile[data-player="true"] {
+  background: #9fba96;
+  border-color: #fff0b3;
+}
+.cave-tile[data-checkpoint="true"] {
+  border-bottom-color: #f0cb64 !important;
+  border-bottom-width: 5px !important;
+}
+.cave-tile-explorer {
+  position: absolute;
+  width: 37px;
+  height: 50px;
+  bottom: 3px;
+}
+.cave-gear {
+  width: 55px;
+  height: 55px;
+  fill: #c6a169;
+  stroke: #846d4f;
+  stroke-width: 2;
+}
+.cave-gear-hole {
+  fill: #163f51;
+}
+.cave-gear-rack {
+  padding: 12px;
+  border: 1px solid #a4ad96;
+  border-radius: 12px;
+}
+.cave-gear-rack button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 130px;
+}
+.cave-weights {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cave-weights section {
+  flex: 1;
+  min-width: 150px;
+  padding: 12px;
+  background: #fff7e6;
+  border: 1px solid #b8baa3;
+  border-radius: 12px;
+}
+.cave-weights button {
+  font-size: 0.85rem;
+  margin: 4px;
+}
+.cave-bridge {
+  width: 100%;
+  display: block;
+  margin: 20px auto 35px;
+  min-height: 210px;
+  position: relative;
+  z-index: 2;
+  background: #122d43aa;
+}
+.cave-mechanical-gear {
+  fill: #e4be79;
+  stroke: #806d4a;
+  stroke-width: 2;
+}
+.cave-mechanical-gear[data-spin="true"] {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cave-gear-turn 3s linear infinite;
+}
+.cave-mechanical-gear[data-spin="true"]:nth-child(odd) {
+  animation-direction: reverse;
+}
+.cave-pulses button {
+  background: var(--crystal);
+  flex: 1;
+  min-width: 100px;
+  box-shadow: 0 0 15px color-mix(in srgb, var(--crystal), transparent 60%);
+}
+.cave-open {
+  box-shadow:
+    inset 0 0 90px #b5ffe1,
+    0 0 25px #b5ffe188;
+}
+.cave-victory {
+  position: relative;
+  text-align: center;
+  background: #102c42;
+  border: 2px solid #70b7ab;
+  border-radius: 18px;
+  overflow: hidden;
+  padding-bottom: 24px;
+}
+.cave-victory-art {
+  width: 100%;
+  display: block;
+  animation: cave-reveal 2s ease-out;
+}
+.cave-victory-avatar {
+  position: absolute;
+  top: 20%;
+  left: 22%;
+  width: 9%;
+  min-width: 45px;
+  animation: cave-walk 1.6s ease-out both;
+}
+.cave-victory h3 {
+  color: #c7ffe7;
+  padding: 0 12px;
+}
+.cave-victory p {
+  padding: 0 20px;
+}
+.cave-paused * {
+  animation-play-state: paused !important;
+}
+@keyframes cave-flicker {
+  to {
+    opacity: 0.5;
+    transform: scale(1.15);
+  }
+}
+@keyframes cave-arrive {
+  from {
+    opacity: 0.4;
+    margin-left: -20px;
+  }
+  to {
+    opacity: 1;
+    margin-left: 0;
+  }
+}
+@keyframes cave-walk {
+  to {
+    left: 46%;
+  }
+}
+@keyframes cave-reveal {
+  from {
+    filter: brightness(0.55);
+  }
+  to {
+    filter: brightness(1.2);
+  }
+}
+@keyframes cave-gear-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 600px) {
+  .cave-game {
+    padding: 10px;
+  }
+  .cave-heading p:last-child {
+    font-size: 0.9rem;
+  }
+  .cave-work {
+    padding: 12px;
+  }
+  .cave-zones {
+    gap: 5px;
+  }
+  .cave-zones button {
+    min-width: 85px;
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+  .cave-scene {
+    min-height: 260px;
+  }
+  .cave-hotspot {
+    font-size: 0.8rem;
+    padding: 8px !important;
+  }
+  .cave-avatar {
+    width: 60px;
+    height: 84px;
+  }
+  .cave-light-board {
+    margin: 12px 7px 55px;
+  }
+  .cave-light-cell.mirror {
+    min-height: 35px;
+  }
+  .cave-floor {
+    gap: 3px;
+    padding: 6px;
+    margin: 10px 6px 25px;
+  }
+  .cave-game .cave-tile {
+    min-height: 48px;
+  }
+  .cave-tile .cave-glyph {
+    width: 27px;
+    height: 27px;
+  }
+  .cave-toolbar button {
+    flex: 1;
+    min-width: 120px;
+  }
+  .cave-code {
+    padding: 8px;
+  }
+  .cave-tokens {
+    gap: 5px;
+  }
+  .cave-tokens button {
+    font-size: 0.8rem;
+    padding: 8px;
+    flex: 1;
+  }
+  .cave-code-slots button {
+    min-width: 70px;
+    font-size: 0.75rem;
+  }
+  .cave-glyph {
+    width: 28px;
+    height: 28px;
+  }
+  .cave-bridge {
+    min-height: 180px;
+  }
+  .cave-weights section {
+    min-width: 130px;
+  }
+  .cave-gear {
+    width: 42px;
+    height: 42px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cave-game * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.cave-scene:has(.cave-floor) > .cave-avatar {
+  display: none;
+}
+.cave-stone-door {
+  position: absolute;
+  left: 38%;
+  width: 24%;
+  top: 26%;
+  bottom: 3%;
+  display: flex;
+  overflow: hidden;
+  z-index: 1;
+  border: 4px solid #829e94;
+  border-radius: 45% 45% 3px 3px;
+  background: radial-gradient(#c8ffe49c, #12354d);
+  pointer-events: none;
+}
+.cave-stone-leaf {
+  width: 50%;
+  display: grid;
+  place-items: center;
+  color: #a7e7d2;
+  background: repeating-linear-gradient(
+    0deg,
+    #527679 0,
+    #527679 44px,
+    #3d606a 45px,
+    #3d606a 48px
+  );
+  border: 2px solid #264b5b;
+  box-shadow: inset 0 0 16px #14374e;
+}
+.cave-stone-leaf .cave-glyph {
+  width: 36px;
+  height: 36px;
+}
+.cave-open .cave-stone-leaf:first-child {
+  transform: translateX(-95%);
+  animation: cave-door-left 1.2s both;
+}
+.cave-open .cave-stone-leaf:last-child {
+  transform: translateX(95%);
+  animation: cave-door-right 1.2s both;
+}
+.cave-game .cave-heart {
+  left: 40%;
+  top: 41%;
+  max-width: 30%;
+  animation: cave-heart-pulse 2s infinite alternate;
+}
+.cave-temple .cave-stone-door {
+  left: 42%;
+  width: 16%;
+  top: 37%;
+  bottom: 14%;
+}
+@keyframes cave-door-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-95%);
+  }
+}
+@keyframes cave-door-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(95%);
+  }
+}
+@keyframes cave-heart-pulse {
+  to {
+    filter: drop-shadow(0 0 17px #a9ffe1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cave-game .cave-heart,
+  .cave-game .cave-stone-leaf {
+    animation: none !important;
+  }
+}
+.cave-scene[data-stage="4"] > .cave-avatar {
+  bottom: 38%;
+}

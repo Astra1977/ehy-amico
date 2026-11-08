@@ -1,3 +1,4 @@
+import { caveEntries } from "./cave-game.js";
 import { atlasSouvenirs } from "./atlas-game.js";
 import { SOUVENIRS } from "./atlas-data.js";
 import { GAMES, gameById } from "./catalog.js";
@@ -29,7 +30,7 @@ const store = createStore(storage),
   main = document.querySelector("main"),
   radio = document.querySelector("#radio");
 const hints = [
-  "Esplora la mappa: ogni tappa custodirà un frammento della Bussola del Tempo. Le prime nove avventure ti aspettano già!",
+  "Esplora la mappa: ogni tappa custodirà un frammento della Bussola del Tempo. Le prime dieci avventure ti aspettano già!",
   "Cinque obiettivi per ogni avventura, cinque tesori da conquistare. Il frammento si ricompone quando li completi tutti!",
   "Il Diario raccoglierà ciò che scopri giocando. Non serve correre: osservare è il primo superpotere di un esploratore.",
 ];
@@ -297,7 +298,7 @@ function playGame(id) {
     start.textContent = "Riprova";
     const restart = begun;
     begun = true;
-    if (["jurassic", "time", "atlas"].includes(id))
+    if (["jurassic", "time", "atlas", "cave"].includes(id))
       shell.classList.add("education-active");
     const ctx = createGameSession({
       restart,
@@ -381,6 +382,10 @@ function diary() {
       );
     }
     p.append(link("Continua l’avventura", "map"));
+  }
+  if (caveEntries(store.data).length) {
+    p.append(el("h2", "Taccuino del Mistero della Grotta"));
+    for (const entry of caveEntries(store.data)) p.append(el("h3", entry.title), el("p", entry.text));
   }
   if (atlasSouvenirs(store.data).length) {
     p.append(el("h2", "Passaporto · Road to Los Angeles"));
