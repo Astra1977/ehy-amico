@@ -3,7 +3,7 @@ export const KEY = "ehy-amico:progress";
 export const BACKUP = KEY + ":backup";
 export const defaults = () => ({
   version: 2,
-  adventures: { jurassic: {}, time: {} },
+  adventures: { jurassic: {}, time: {}, atlas: {} },
   games: Object.fromEntries(
     GAMES.map((g) => [g.id, { completed: 0, best: 0 }]),
   ),
@@ -26,7 +26,7 @@ export function normalize(raw) {
       best: bound(v?.best, Number.MAX_SAFE_INTEGER),
     };
   }
-  for (const id of ["jurassic", "time"])
+  for (const id of ["jurassic", "time", "atlas"])
     for (let stage = 1; stage <= 5; stage++) {
       const value = raw.adventures?.[id]?.[stage];
       if (value && typeof value === "object" && !Array.isArray(value)) {
@@ -125,7 +125,7 @@ export function createStore(storage) {
     saveAdventure(id, stage, value) {
       if (
         locked ||
-        !["jurassic", "time"].includes(id) ||
+        !["jurassic", "time", "atlas"].includes(id) ||
         !Number.isInteger(stage) ||
         stage < 1 ||
         stage > 5

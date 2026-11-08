@@ -19,7 +19,7 @@ const entries = [
     "portale",
     3,
   ],
-  ["atlas", "L’Atlante Segreto", "Un mondo da scoprire", "atlante", 3],
+  ["atlas", "L’Atlante Segreto", "Road to Los Angeles", "atlante", 3],
   [
     "cave",
     "Il Mistero della Grotta",
@@ -75,11 +75,12 @@ export const GAMES = Object.freeze(
         "car",
         "jurassic",
         "time",
+        "atlas",
       ].includes(id)
         ? "playable"
         : "planned",
       missions: 5,
-      difficulties: ["Esploratore", "Avventuriero", "Esperto"],
+      difficulties: id === "atlas" ? ["Esploratore", "Veterano NFL"] : ["Esploratore", "Avventuriero", "Esperto"],
     }),
   ),
 );

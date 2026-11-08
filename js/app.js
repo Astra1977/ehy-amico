@@ -1,3 +1,5 @@
+import { atlasSouvenirs } from "./atlas-game.js";
+import { SOUVENIRS } from "./atlas-data.js";
 import { GAMES, gameById } from "./catalog.js";
 import { createStore, totals } from "./progress.js";
 import "./pwa.js";
@@ -27,7 +29,7 @@ const store = createStore(storage),
   main = document.querySelector("main"),
   radio = document.querySelector("#radio");
 const hints = [
-  "Esplora la mappa: ogni tappa custodirà un frammento della Bussola del Tempo. Le prime otto avventure ti aspettano già!",
+  "Esplora la mappa: ogni tappa custodirà un frammento della Bussola del Tempo. Le prime nove avventure ti aspettano già!",
   "Cinque obiettivi per ogni avventura, cinque tesori da conquistare. Il frammento si ricompone quando li completi tutti!",
   "Il Diario raccoglierà ciò che scopri giocando. Non serve correre: osservare è il primo superpotere di un esploratore.",
 ];
@@ -295,7 +297,7 @@ function playGame(id) {
     start.textContent = "Riprova";
     const restart = begun;
     begun = true;
-    if (id === "jurassic" || id === "time")
+    if (["jurassic", "time", "atlas"].includes(id))
       shell.classList.add("education-active");
     const ctx = createGameSession({
       restart,
@@ -379,6 +381,10 @@ function diary() {
       );
     }
     p.append(link("Continua l’avventura", "map"));
+  }
+  if (atlasSouvenirs(store.data).length) {
+    p.append(el("h2", "Passaporto · Road to Los Angeles"));
+    for (const id of atlasSouvenirs(store.data)) p.append(el("p", SOUVENIRS[id]));
   }
   if (store.data.games.jurassic.completed || museumEntries(store.data).length) {
     p.append(el("h2", "Reperti della valle"));

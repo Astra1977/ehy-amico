@@ -1,3 +1,4 @@
+import { atlas, MISSIONS as ATLAS_MISSIONS } from "./atlas-game.js";
 import { jurassic } from "./jurassic-game.js";
 import { timeMachine } from "./time-game.js";
 import { EDUCATION_OBJECTIVES } from "./education-data.js";
@@ -17,6 +18,7 @@ import {
 } from "./arcade-engines.js";
 import { TetrisEngine, SHAPES, BLOCK_COLORS } from "./tetris-engine.js";
 export const OBJECTIVES = {
+  atlas: ATLAS_MISSIONS,
   ...EDUCATION_OBJECTIVES,
   ...PUZZLE_OBJECTIVES,
   car: ROAD_OBJECTIVES,
@@ -28,6 +30,7 @@ export const OBJECTIVES = {
   tetris: TETRIS_GOALS.map((n) => `Elimina ${n} righe nella stessa partita`),
 };
 export const GAME_HINTS = {
+  atlas: ["Ehy Amico! La bussola indica ovest: ci aspetta il Pacifico!", "Ogni Stato ha un timbro, ogni città una storia. Il passaporto conserva i souvenir.", "Allarga i ricevitori e passa sulla fascia per superare la difesa."],
   jurassic: [
     "Ehy Amico! Un reperto alla volta: osserva, scava e ricostruisci.",
     "Usa il pennello vicino alle ossa e confronta le forme.",
@@ -451,6 +454,7 @@ export function tetris(ctx) {
   draw();
 }
 export const PLAYABLE = {
+  atlas,
   roach,
   runner,
   tetris,
