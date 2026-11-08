@@ -2,7 +2,7 @@
 
 **Il Mistero del Tempo Perduto** — PWA statica di avventure per piccoli esploratori.
 
-La Fase 1 include base, mappa delle dodici avventure, radio, struttura del diario, collezione e progressi locali. La Fase 2A aggiunge Acchiappa la Cucaracha, Salta la Cacca e Tetris giocabili, con 15 tesori e tre frammenti. La Fase 2B aggiunge Labirinto, Memory e Out Run: sei avventure giocabili, fino a 30 tesori e sei frammenti. La Fase 3A aggiunge Jurassic e La Macchina del Tempo: otto avventure giocabili, fino a 40 tesori e otto frammenti. La Fase 3B aggiunge L’Atlante Segreto — Road to Los Angeles: nove avventure giocabili, fino a 45 tesori e nove frammenti. Le ultime tre avventure restano in preparazione.
+La Fase 1 include base, mappa delle dodici avventure, radio, struttura del diario, collezione e progressi locali. La Fase 2A aggiunge Acchiappa la Cucaracha, Salta la Cacca e Tetris giocabili, con 15 tesori e tre frammenti. La Fase 2B aggiunge Labirinto, Memory e Out Run: sei avventure giocabili, fino a 30 tesori e sei frammenti. La Fase 3A aggiunge Jurassic e La Macchina del Tempo: otto avventure giocabili, fino a 40 tesori e otto frammenti. La Fase 3B aggiunge L’Atlante Segreto — Road to Los Angeles: nove avventure giocabili, fino a 45 tesori e nove frammenti. La Fase 3B / avventura 10 aggiunge Il Mistero della Grotta: dieci avventure giocabili, fino a 50 tesori e dieci frammenti. Le ultime due avventure restano in preparazione.
 
 Avvio locale: `npm run serve`, quindi aprire `http://localhost:8000/ehy-amico/` (la cartella deve chiamarsi `ehy-amico`). Nessun account, server applicativo, pubblicità, telemetria, font o asset remoti.
 
@@ -23,3 +23,5 @@ Provenienza e autorizzazione della guida, regole, test e collaudo manuale: [Fase
 Missioni educative, contenuti, migrazione dei salvataggi, test e collaudo: [Fase 3A](docs/FASE-3A.md).
 
 Mappa USA, guida, football, geografia NFL, salvataggi e collaudo: [Fase 3B](docs/FASE-3B.md).
+
+Enigmi ambientali, luce, pavimento, ponte e tempio: [Il Mistero della Grotta](docs/FASE-3B-GROTTA.md).
